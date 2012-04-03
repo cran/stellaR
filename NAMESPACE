@@ -1,0 +1,18 @@
+
+export(makeIso, interpTrk, plotAstro, testComposition, showComposition, getTrk, getIso, getZahb, getHb, getHbgrid, getTrkSet, getIsoSet, keypoints)
+
+S3method(plot, zahb)
+S3method(plot, trk)
+S3method(plot, iso)
+S3method(plot, hb)
+S3method(plot, trkset)
+S3method(plot, hbset)
+S3method(plot, isoset)
+S3method(print, zahb)
+S3method(print, trk)
+S3method(print, iso)
+S3method(print, hb)
+S3method(keypoints, trk)
+S3method(keypoints, trkset)
+S3method(keypoints, iso)
+S3method(keypoints, isoset)
