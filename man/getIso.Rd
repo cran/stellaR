@@ -45,6 +45,10 @@ Import a stellar isochrone.
 }
   \code{\link{print}}, and \code{\link{plot}} methods are available for
   the class. 
+
+  If \code{baseURL} points to an invalid path or CDS ftp site is
+  unavailable
+  the function returns \code{NA} and issues a warning.
 }
 \details{
   As a sanity check, the function performs a consistency test on the parameters

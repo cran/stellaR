@@ -26,8 +26,11 @@
 \value{
 
   \code{getHbgrid} returns an object of class \code{hbset}, i.e. 
-   a list with one element of class \code{hb} for each HB model.
+  a list with one element of class \code{hb} for each HB model.
 
+  If \code{baseURL} points to an invalid path or CDS ftp site is
+  unavailable
+  the function returns \code{NA} and issues a warning.
 }
 \details{
 

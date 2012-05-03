@@ -1,7 +1,7 @@
 Package: stellaR
 Title: stellar evolution tracks and isochrones
-Version: 0.1-0
-Date: 2012-04-03
+Version: 0.2-0
+Date: 2012-05-03
 Authors@R: c(person("Matteo", "Dell'Omodarme", role = c("aut", "cre"),
         email = "mattdell@fastmail.fm"), person("Giada", "Valle", role
         = "aut"))
@@ -12,8 +12,8 @@ URL: The database is described at:
         http://astro.df.unipi.it/stellar-models/
 LazyData: yes
 License: GPL (>= 2)
-Packaged: 2012-04-30 14:43:03 UTC; matt
-Author: Matteo Dell'Omodarme [aut, cre], Giada Valle [aut]
 Maintainer: Matteo Dell'Omodarme <mattdell@fastmail.fm>
+Packaged: 2012-05-03 08:22:07 UTC; matt
+Author: Matteo Dell'Omodarme [aut, cre], Giada Valle [aut]
 Repository: CRAN
-Date/Publication: 2012-04-30 19:14:30
+Date/Publication: 2012-05-03 08:42:10

@@ -57,7 +57,9 @@ plotAstro(x, y, type="l", xlab="", ylab="", xi=(max(x)-min(x))/5,
 \examples{
 
   trk <- getTrk(0.9, 0.002, 0.25, 1.7, 0)
-  plot(trk)
+
+  ### check return value from CDS
+  if(!is.na(trk)[1]) plot(trk)
 
 }
 \keyword{hplot}

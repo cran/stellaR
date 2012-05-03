@@ -50,7 +50,9 @@ axes ranges, major ticks and labels are chosen.
 \examples{
 
   trkset <- getTrkSet(c(0.7, 0.9, 1.1), 0.002, 0.25, 1.7, 0)
-  plot(trkset)
+
+  ### check return value from CDS
+  if(!is.na(trkset)[1]) plot(trkset)
 
 }
 \keyword{hplot}

@@ -53,7 +53,13 @@ showComposition <- function() {
 
 getZahb <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
 # retrieve ZAHB for given parameters
-  
+
+    if(baseURL == "ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
+      msg <- "CDS is unavailable; please try later"
+    } else {
+      msg <- "data file not found; please check path"
+    }
+    
     specificURL <- "zahb/ZAHB_Z"
     
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
@@ -69,7 +75,17 @@ getZahb <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J
     
     URL <- paste(baseURL, specificURL, Z, "_He", Y, "_ML", ML, AFE, ".DAT", sep="")
   
-    DATA <- read.table(URL, skip=6)
+    DATA <- tryCatch(
+              read.table(URL, skip=6),
+              error=function(e) NULL,
+              warning=function(e) NULL
+              )
+    
+    if(is.null(DATA)) {
+      warning(msg)
+      return(NA)
+    }
+             
     colnames(DATA) <- c("mass", "logTe", "logL")
     L <- list(z=z, y=y, ml=ml, alpha.enh=ifelse(afe,0.3,0), data=DATA)
     class(L) <- c("zahb", "stellar")
@@ -79,6 +95,11 @@ getZahb <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J
 getTrk <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
 # retrieve track (from PMS to He flash) for given parameters
 
+    if(baseURL == "ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
+      msg <- "CDS is unavailable; please try later"
+    } else {
+      msg <- "data file not found; please check path"
+    }
     specificURL <- "trk/TRK_Z"
     
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
@@ -96,8 +117,18 @@ getTrk <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
     dirURL <- paste(baseURL, specificURL, Z, "_He", Y, "_ML", ML, AFE, "/", sep="")
     
     URL <- paste(dirURL, "OUT_M", M, "_Z", Z, "_He", Y, "_ML", ML, AFE, ".DAT", sep="")
+
+    DATA <- tryCatch(
+              read.table(URL, skip=5),
+              error=function(e) NULL,
+              warning=function(e) NULL
+              )
     
-    DATA <- read.table(URL, skip=5)
+    if(is.null(DATA)) {
+      warning(msg)
+      return(NA)
+    }
+
     colnames(DATA) <- c("mod", "time", "logL" ,"logTe", "mass", "Hc", "logTc", "logRHOc", "MHEc", "Lpp", "LCNO", "L3a", "Lg", "radius", "logg")
     L <- list(mass=m, z=z, y=y, ml=ml, alpha.enh=ifelse(afe,0.3,0), data=DATA)
     class(L) <- c("trk", "stellar")
@@ -107,6 +138,11 @@ getTrk <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
 getIso <- function(age, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
 # retrieve iso (from PMS to He flash) for given parameters
   
+    if(baseURL == "ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
+      msg <- "CDS is unavailable; please try later"
+    } else {
+      msg <- "data file not found; please check path"
+    }
     specificURL <- "iso/ISO_Z"
     
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
@@ -125,8 +161,18 @@ getIso <- function(age, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/ca
     dirURL <- paste(baseURL, specificURL, Z, "_He", Y, "_ML", ML, AFE, "/", sep="")
     
     URL <- paste(dirURL, "AGE", zero, AGE, "_Z", Z, "_He", Y, "_ML", ML, AFE, ".DAT", sep="")
+
+    DATA <- tryCatch(
+              read.table(URL, skip=6),
+              error=function(e) NULL,
+              warning=function(e) NULL
+              )    
     
-    DATA <- read.table(URL, skip=6)
+    if(is.null(DATA)) {
+      warning(msg)
+      return(NA)
+    }
+    
     colnames(DATA) <- c("logL" ,"logTe", "mass", "radius", "logg")
     L <- list(age=age, z=z, y=y, ml=ml, alpha.enh=ifelse(afe,0.3,0), data=DATA)
     class(L) <- c("iso", "stellar")
@@ -137,6 +183,11 @@ getIso <- function(age, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/ca
 getHb <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
 # retrieve track (from ZAHB to thermal pulses) for given parameters
   
+    if(baseURL == "ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
+      msg <- "CDS is unavailable; please try later"
+    } else {
+      msg <- "data file not found; please check path"
+    }
     specificURL <- "hb/TRK_Z"
     
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
@@ -162,8 +213,18 @@ getHb <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/
     massRGB <- format(masshb.ext[sel, 6], nsmall=4)
     
     URL <- paste(dirURL, "OUT_M", M, "_Z", Z, "_He", Y, "_ML", ML, AFE, "_ZAHB", massRGB, ".DAT", sep="")
+
+    DATA <- tryCatch(
+              read.table(URL, skip=5),
+              error=function(e) NULL,
+              warning=function(e) NULL
+          )
+
+    if(is.null(DATA)) {
+          warning(msg)
+          return(NA)
+        }
     
-    DATA <- read.table(URL, skip=5)
     colnames(DATA) <- c("mod", "time", "logL" ,"logTe", "mass", "Hc", "logTc", "logRHOc", "MHEc", "Lpp", "LCNO", "L3a", "Lg", "radius", "logg")
     L <- list(mass=m, massRGB=m, z=z, y=y, ml=ml, alpha.enh=ifelse(afe,0.3,0), data=DATA)
     class(L) <- c("hb", "stellar")
@@ -173,7 +234,12 @@ getHb <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/
 
 getHbgrid <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
 # retrieve track (from ZAHB to thermal pulses) for given parameters
-  
+
+    if(baseURL == "ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
+      msg <- "CDS is unavailable; please try later"
+    } else {
+      msg <- "data file not found; please check path"
+    }
     specificURL <- "hb/TRK_Z"
     
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
@@ -200,10 +266,20 @@ getHbgrid <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
     
     n.trk <- length(massRGB)
     L <- list()
+    
     for(i in 1:n.trk) {
         URL <- paste(dirURL, "OUT_M", M, "_Z", Z, "_He", Y, "_ML", ML, AFE, "_ZAHB", massRGB[i], ".DAT", sep="")
-        
-        DATA <- read.table(URL, skip=5)
+
+        DATA <- tryCatch(
+                  read.table(URL, skip=5),
+                  error=function(e) NULL,
+                  warning=function(e) NULL
+                  )
+        if(is.null(DATA)) {
+          warning(msg)
+          return(NA)
+        }
+
         colnames(DATA) <- c("mod", "time", "logL" ,"logTe", "mass", "Hc", "logTc", "logRHOc", "MHEc", "Lpp", "LCNO", "L3a", "Lg", "radius", "logg")
         L[[i]] <- list(mass=round(as.numeric(massRGB[i]),2), massRGB=M, z=z, y=y, ml=ml, alpha.enh=ifelse(afe,0.3,0), data=DATA)
         class(L[[i]]) <- c("hb", "stellar")
@@ -232,7 +308,11 @@ getTrkSet <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/c
         if( !testComposition(grid[i,2], grid[i,3], grid[i,4], grid[i,5]))
             stop("required data not present in the database")
         trk[[i]] <- getTrk(grid[i,1], grid[i,2], grid[i,3], grid[i,4], grid[i,5], baseURL)
+
+        if(is.na(trk[[i]])[1]) 
+          return(NA)
     }
+ 
     class(trk) <- c("trkset", "stellar")
     return(trk)
 }
@@ -253,6 +333,9 @@ getIsoSet <- function(age, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub
         if( !testComposition(grid[i,2], grid[i,3], grid[i,4], grid[i,5]))
             stop("required data not present in the database")
         iso[[i]] <- getIso(grid[i,1], grid[i,2], grid[i,3], grid[i,4], grid[i,5], baseURL)
+
+        if(is.na(iso[[i]])[1]) 
+          return(NA)
     }
     class(iso) <- c("isoset", "stellar")
     return(iso)

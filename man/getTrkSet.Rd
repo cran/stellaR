@@ -42,7 +42,11 @@ flash, or a set of isochrones.
   list of objects of class \code{iso}.
 
   \code{\link{print}}, and \code{\link{plot}} methods are available for
-  the two classes. 
+  the two classes.
+
+  If \code{baseURL} points to an invalid path or CDS ftp site is
+  unavailable
+  the function returns \code{NA} and issues a warning.
 }
 \details{
 

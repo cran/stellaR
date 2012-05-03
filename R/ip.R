@@ -21,7 +21,11 @@ makeIso <- function(age, z=NULL, y=NULL, ml=NULL, afe=NULL, log=FALSE, linear=TR
         
                                         # get all the set of masses
                                         # for given composition
-        tr <- getTrkSet(v.mass, z, y, ml, afe, baseURL) 
+        tr <- getTrkSet(v.mass, z, y, ml, afe, baseURL)
+        if(is.na(tr)) {
+          warning("CDS is unavailable; please try later")
+          return(NULL)
+        }          
     }
     else {
         if( !all(c(is.null(z), is.null(y), is.null(ml), is.null(afe)))) 
@@ -201,7 +205,10 @@ interpTrk <- function(z, y, ml, afe, vmass=seq(0.30,1.10, by=0.05), baseURL="ftp
     for(i in 1:n.grid) {
         tr[[i]] <- getTrkSet(vmass, grid[i,3], grid[i,2], grid[i,1], afe, baseURL)
     }
-    
+    if(is.na(tr[[1]])) {
+      warning("CDS is unavailable; please try later")
+      return(NULL)
+    }
                                         # transform z to log10(z)
     z <- log10(z)
     z.ip <- log10(z.ip)
