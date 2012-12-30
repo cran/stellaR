@@ -110,5 +110,15 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
 
   ### get data from local directory /data
   \dontrun{trk <- getTrk(0.9, 0.002, 0.25, 1.7, 0, baseURL="/data/")}
+
+  ###  multi-panel plot of the various quantities with time
+  track <- getTrk(0.80, 0.001, 0.25, 1.90, 0)
+  if(!is.na(track)[1]) {
+  trkdata <- within(stack(track$data), time <- rep(track$data$time,
+      length.out=length(values)) )
+  require(lattice)
+  xyplot( values ~ time | ind, data=trkdata, type="l",
+      scales=list(y=list(relation="free")))
+  }
 }
 \keyword{manip}

@@ -38,7 +38,9 @@ Construct a set of interpolated tracks from the objects in the database.
 }
 \examples{
 
-  iptrk <- interpTrk(0.002, 0.25, 1.74, 0)
+  ### slow!
+  \dontrun{ 
+  iptrk <- interpTrk(0.002, 0.25, 1.74, 0)}
 
   ### get data from local directory /data
   \dontrun{iptrk <- interpTrk(0.002, 0.25, 1.74, 0, baseURL="/data/")}

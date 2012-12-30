@@ -2,10 +2,12 @@ testComposition <- function(Z, Y, ML, AFE) {
 # test for the existence of a given combination of
 # chemical composition (Z, Y, AFE) and mixing length
 
-    z <- c( (1:9)*1e-4, (1:9)*1e-3, 1e-2 )
-    y <- cbind( c(rep(0.249,4), rep(0.250,6), seq(0.252,0.268, by=0.002) ), rep(0.250,19), rep(0.270,19), rep(0.33,19), rep(0.38,19), rep(0.42,19) )
-    ml <- c(1.7, 1.8, 1.9)
-    afe <- 0:1
+    data(compositions)
+
+    afe <- compositions$afe
+    ml <- compositions$ml
+    z <- compositions$z
+    y <- compositions$y
     
     testAFE <- AFE %in% afe
     if(!testAFE) 
@@ -26,7 +28,7 @@ testComposition <- function(Z, Y, ML, AFE) {
     }
     if(!testY) 
         warning("y value not in the database")
-    
+       
     return( testAFE & testML & testZ & testY )
 }
 
@@ -34,12 +36,13 @@ showComposition <- function() {
 # Show the possible combinations of
 # chemical composition (Z, Y, AFE) and mixing length
 
-    z <- c( (1:9)*1e-4, (1:9)*1e-3, 1e-2 )
-    y <- cbind( c(rep(0.249,4), rep(0.250,6), seq(0.252,0.268, by=0.002) ), rep(0.250,19), rep(0.270,19), rep(0.33,19), rep(0.38,19), rep(0.42,19) )
-    colnames(y) <- rep("y", 6)
-    ml <- c(1.7, 1.8, 1.9)
-    afe <- 0:1
-    
+    data(compositions)
+
+    afe <- compositions$afe
+    ml <- compositions$ml
+    z <- compositions$z
+    y <- compositions$y
+
     cat("Mixing-length values:\n")
     cat("\t", paste(ml,collapse=", "), "\n\n")
     
@@ -101,11 +104,12 @@ getTrk <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
       msg <- "data file not found; please check path"
     }
     specificURL <- "trk/TRK_Z"
-    
+
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
         baseURL <- paste(baseURL, "/", sep="")
-    
-    if( !testComposition(z, y, ml, afe))
+
+    M <- seq(0.3, 1.1, by=0.05)
+    if( !testComposition(z, y, ml, afe) | ! (as.integer(100*m) %in% as.integer(100*M)) )
         stop("required data not present in the database")
     
     M <- format(m, nsmall=2)
@@ -147,8 +151,9 @@ getIso <- function(age, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/ca
     
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
         baseURL <- paste(baseURL, "/", sep="")
-    
-    if( !testComposition(z, y, ml, afe))
+
+    AGE <- seq(8,15,by=0.5)
+    if( !testComposition(z, y, ml, afe) | ! (as.integer(age*100) %in% as.integer(AGE*100)))
         stop("required data not present in the database")
     
     AGE <- age*1000
@@ -192,8 +197,9 @@ getHb <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/
     
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
         baseURL <- paste(baseURL, "/", sep="")
-    
-    if( !testComposition(z, y, ml, afe))
+
+    M <- seq(0.3, 1.1, by=0.05)
+    if( !testComposition(z, y, ml, afe) | ! (as.integer(m*100) %in% as.integer(M*100)) )
         stop("required data not present in the database")
     
     M <- format(m, nsmall=2)
@@ -244,8 +250,8 @@ getHbgrid <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
     
     if(substr(baseURL, nchar(baseURL), nchar(baseURL)) != "/")
         baseURL <- paste(baseURL, "/", sep="")
-    
-    if( !testComposition(z, y, ml, afe))
+
+    if( !testComposition(z, y, ml, afe) )
         stop("required data not present in the database")
     
     Z <- format(z, nsmall=5, scientific=FALSE)	   
@@ -266,7 +272,11 @@ getHbgrid <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
     
     n.trk <- length(massRGB)
     L <- list()
-    
+
+  # txt progress bar
+    cat("Download in progress...\n")
+    pb <- txtProgressBar()
+
     for(i in 1:n.trk) {
         URL <- paste(dirURL, "OUT_M", M, "_Z", Z, "_He", Y, "_ML", ML, AFE, "_ZAHB", massRGB[i], ".DAT", sep="")
 
@@ -278,12 +288,16 @@ getHbgrid <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
         if(is.null(DATA)) {
           warning(msg)
           return(NA)
-        }
 
+        }
+        setTxtProgressBar(pb, i/n.trk)
+        
         colnames(DATA) <- c("mod", "time", "logL" ,"logTe", "mass", "Hc", "logTc", "logRHOc", "MHEc", "Lpp", "LCNO", "L3a", "Lg", "radius", "logg")
         L[[i]] <- list(mass=round(as.numeric(massRGB[i]),2), massRGB=M, z=z, y=y, ml=ml, alpha.enh=ifelse(afe,0.3,0), data=DATA)
         class(L[[i]]) <- c("hb", "stellar")
     }
+    close(pb)
+    
     class(L) <- c("hbset", "stellar")
     return(L)
 }
@@ -294,49 +308,72 @@ getHbgrid <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
 
 getTrkSet <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
 
-    grid <- expand.grid(m, z, y, ml, afe)
-    n <- dim(grid)[1]
-    
-    if(n == 1) {
-        if( !testComposition(grid[1,2], grid[1,3], grid[1,4], grid[1,5]))
-            stop("required data not present in the database")
-        return(getTrk(grid[1,1], grid[1,2], grid[1,3], grid[1,4], grid[1,5], baseURL))
-    }
-    
-    trk <- list()
-    for(i in 1:n) {
-        if( !testComposition(grid[i,2], grid[i,3], grid[i,4], grid[i,5]))
-            stop("required data not present in the database")
-        trk[[i]] <- getTrk(grid[i,1], grid[i,2], grid[i,3], grid[i,4], grid[i,5], baseURL)
+    pars <- expand.grid(m=m, z=z, y=y, ml=ml, afe=afe)
+    N <- nrow(pars)
 
-        if(is.na(trk[[i]])[1]) 
-          return(NA)
-    }
+  # test the compositions of the grid
+    ok <- sapply(1:N, function(i) with(pars[i, ], testComposition(z, y, ml, afe)))
+    
  
-    class(trk) <- c("trkset", "stellar")
+    
+    if(sum(ok) > 1) {
+         # txt progress bar
+        cat("Download in progress...\n")
+        pb <- txtProgressBar()
+      
+        trk <- lapply((1:N)[ok], function(i) {
+          # update the progress bar
+          setTxtProgressBar(pb, i/sum(ok))
+          return(with(pars[i, ], getTrk(m, z, y, ml, afe, baseURL)))
+        } )
+        close(pb)
+      }
+    else
+    # only 1 track ...
+        return(with(pars[1, ], getTrk(m, z, y, ml, afe, baseURL)))
+  
+    if(sum(ok) > 1)
+        class(trk) <- c("trkset", "stellar")
+    else
+    # no results
+        return(NA)
+  
     return(trk)
 }
 
+
 getIsoSet <- function(age, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/J/A+A/540/A26/") {
 
-    grid <- expand.grid(age, z, y, ml, afe)
-    n <- dim(grid)[1]
-    
-    if(n == 1) {
-        if( !testComposition(grid[1,2], grid[1,3], grid[1,4], grid[1,5]))
-            stop("required data not present in the database")
-        return(getIso(grid[1,1], grid[1,2], grid[1,3], grid[1,4], grid[1,5], baseURL))
-    }
-    
-    iso <- list()
-    for(i in 1:n) {
-        if( !testComposition(grid[i,2], grid[i,3], grid[i,4], grid[i,5]))
-            stop("required data not present in the database")
-        iso[[i]] <- getIso(grid[i,1], grid[i,2], grid[i,3], grid[i,4], grid[i,5], baseURL)
+    pars <- expand.grid(age=age, z=z, y=y, ml=ml, afe=afe)
+    N <- nrow(pars)
 
-        if(is.na(iso[[i]])[1]) 
-          return(NA)
-    }
-    class(iso) <- c("isoset", "stellar")
+  # test the compositions of the grid
+    ok <- sapply(1:N, function(i) with(pars[i, ], testComposition(z, y, ml, afe)))
+
+    if(sum(ok) > 1) {
+       # txt progress bar
+        cat("Download in progress...\n")
+        pb <- txtProgressBar()
+        
+        iso <- lapply((1:N)[ok], function(i) {
+          # update the progress bar
+          setTxtProgressBar(pb, i/sum(ok))
+          
+          return(with(pars[i, ], getIso(age, z, y, ml, afe, baseURL)))
+        } )
+        close(pb)
+      }
+    else
+    # only 1 iso ...
+        return(with(pars[1, ], getIso(age, z, y, ml, afe, baseURL)))
+  
+    if(sum(ok) > 1)
+        class(iso) <- c("isoset", "stellar")
+    else
+    # no results
+        return(NA)
+  
     return(iso)
 }
+
+

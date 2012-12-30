@@ -22,7 +22,7 @@ makeIso <- function(age, z=NULL, y=NULL, ml=NULL, afe=NULL, log=FALSE, linear=TR
                                         # get all the set of masses
                                         # for given composition
         tr <- getTrkSet(v.mass, z, y, ml, afe, baseURL)
-        if(is.na(tr)) {
+        if(all(is.na(tr))) {
           warning("CDS is unavailable; please try later")
           return(NULL)
         }          
@@ -30,6 +30,9 @@ makeIso <- function(age, z=NULL, y=NULL, ml=NULL, afe=NULL, log=FALSE, linear=TR
     else {
         if( !all(c(is.null(z), is.null(y), is.null(ml), is.null(afe)))) 
             warning("discarding z, y, ml, afe from arguments list")
+        if( ! all(class(tr) == c("trkset", "stellar"))) 
+            stop("tr must be of class \"trkset\"")
+        
         nmass <- length(tr)
         
         ztmp <- sapply(tr, function(x) x$z)
@@ -103,13 +106,18 @@ makeIso <- function(age, z=NULL, y=NULL, ml=NULL, afe=NULL, log=FALSE, linear=TR
                                         # interpolate tracks at given ages
     iso.tmp <- NULL
     iso.tmp <- rbind(iso.tmp, c(Li, Ti, Mi))
-    for(i in initial:max.length) {
-        Mi <- fun(time[i,], mass, xout=age, method=meth)$y
-        Li <- fun(time[i,], logL[i,], xout=age, method=meth)$y
-        Ti <- fun(time[i,], logTe[i,], xout=age, method=meth)$y
+   
+    Mi <- sapply(initial:max.length, function(i)
+      approx(x=time[i,], y=mass, xout=age, method=meth)$y)
+    Li <- sapply(initial:max.length, function(i)
+      approx(x=time[i,], y=logL[i,], xout=age, method=meth)$y)
+    Ti <- sapply(initial:max.length, function(i)
+      approx(x=time[i,], y=logTe[i,], xout=age, method=meth)$y)
 
-        iso.tmp <- rbind(iso.tmp, c(Li, Ti, Mi))
-    }
+    if(length(age) > 1)
+      iso.tmp <- rbind(iso.tmp, cbind(t(Li), t(Ti), t(Mi)))
+    else
+      iso.tmp <- rbind(iso.tmp, cbind(Li, Ti, Mi))
     
                                         # fill the result list, discarding NA
     iso <- list()
@@ -153,7 +161,7 @@ interpTrk <- function(z, y, ml, afe, vmass=seq(0.30,1.10, by=0.05), baseURL="ftp
     
     if(!verify) 
         stop("please check inputs parameters (z, y, ml, afe)")
-    
+
     vz <- c( (1:9)*1e-4, (1:9)*1e-3, 1e-2 )
     vy <- c(0.25, 0.27, 0.33, 0.38, 0.42)
     vml <- c(1.7, 1.8, 1.9)
@@ -189,7 +197,7 @@ interpTrk <- function(z, y, ml, afe, vmass=seq(0.30,1.10, by=0.05), baseURL="ftp
     }
 
     # grid of cases selected for interpolation
-    grid <- expand.grid(ml.ip, y.ip, z.ip)
+    grid <- expand.grid(ml=ml.ip, y=y.ip, z=z.ip)
     # number of row (it can be 1, 2, 4, 8)
     n.grid <- dim(grid)[1]
     
@@ -200,16 +208,14 @@ interpTrk <- function(z, y, ml, afe, vmass=seq(0.30,1.10, by=0.05), baseURL="ftp
     }
     
                                         # get tracks ...
-    tr <- list()
+    tr <- lapply(1:n.grid, function(i) with(grid[i, ], getTrkSet(vmass, z, y, ml, afe, baseURL)))
     nmass <- length(vmass)
-    for(i in 1:n.grid) {
-        tr[[i]] <- getTrkSet(vmass, grid[i,3], grid[i,2], grid[i,1], afe, baseURL)
-    }
-    if(is.na(tr[[1]])) {
+
+    if(all(is.na(tr[[1]]))) {
       warning("CDS is unavailable; please try later")
       return(NULL)
     }
-                                        # transform z to log10(z)
+                                            # transform z to log10(z)
     z <- log10(z)
     z.ip <- log10(z.ip)
     
@@ -247,15 +253,14 @@ interpTrk <- function(z, y, ml, afe, vmass=seq(0.30,1.10, by=0.05), baseURL="ftp
     }
     
                                         # set (z, y, ml) for interpolated tracks
-    for(j in 1:nmass) {
-        tr[[1]][[j]]$z <- 10^z
-        tr[[1]][[j]]$y <- y
-        tr[[1]][[j]]$ml <- ml
- 
-        for(k in rev(6:15))
-          tr[[1]][[j]]$data[,k] <- NULL
-    }
+    tro <- lapply(tr[[1]], function(i) {
+      i$z <- 10^z
+      i$y <- y
+      i$ml <- ml
+      i$data <- i$data[,1:5]
+      return(i);
+    } )
+    class(tro) <- c("trkset", "stellar")
+    return(tro)
     
-    class(tr) <- c("trkset", "stellar")
-    return(tr[[1]])
 }

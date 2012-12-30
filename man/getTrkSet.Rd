@@ -78,13 +78,11 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
   ### get two masses
   trkset <- getTrkSet(c(0.9, 1.0), 0.002, 0.25, 1.7, 0)
 
-  ### get two masses at three metallicity, for a total of 6 objects
-  trkset <- getTrkSet(c(0.9, 1.0), c(0.002, 0.006, 0.01), 0.25, 1.7, 0)
+  ### get two masses at two metallicity, for a total of 4 objects
+  trkset <- getTrkSet(c(0.9, 1.0), c(0.002, 0.01), 0.25, 1.7, 0)
 
   ### get data from local directory /data
   \dontrun{set <- getTrkSet(0.9, 0.002, c(0.25, 0.33), 1.7, 0, baseURL="/data/")}
 
-   ### get four isochrones
-  isoset <- getIsoSet(c(9, 10, 12), 0.002, 0.25, 1.7, 0)
 }
 \keyword{manip}
