@@ -1,7 +1,7 @@
-d2f741d9f00ef385f3e5f6475be7ec60 *DESCRIPTION
+1f63929beb519f060ae7c49d45336e86 *DESCRIPTION
 ffb9cbc202fbceb6ca97f8751a08ecf1 *NAMESPACE
 ce78e7a13788dd84d71ba966962ea2a5 *R/evolut.R
-f1e4a8b6450809a4bf3518b58a881193 *R/ip.R
+bdf570518e325e7efc607668b6c3a65e *R/ip.R
 1041268329a543a54593ca8192a3b37d *R/plot.R
 6184e125958c82cff6e45480efbe98d7 *R/print.R
 2bf561e77faf9991975ac854ba2e5ae5 *R/stellar.R
@@ -16,7 +16,7 @@ fb5743bce695f96a8a82108bd88ed39c *data/masshb.rda
 4c7a572196dd21a47f6dba0bd33c60e7 *man/getZahb.Rd
 a1ace64ba0684151be1fb0ed7402266a *man/interpTrk.Rd
 4d668461518edadb8fb6ebfe593e3abe *man/keypoints.Rd
-43deaa716056411f050a86a9ee1a2fd0 *man/makeIso.Rd
+05ee11306a901e8709d02edc07548d7c *man/makeIso.Rd
 9631495cd46334a965252d768f225c6b *man/masshb.Rd
 e9a9c0289a46d8e78dc14ba2abecb537 *man/plot.trk.Rd
 5d35a99e4f70dbbb49ebde72e81da5c9 *man/plot.trkset.Rd

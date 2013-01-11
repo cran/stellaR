@@ -60,7 +60,9 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
 }
 \examples{
 
-  isoset <- makeIso(11.2, 0.002, 0.25, 1.7, 0)
+ ### slow!
+ \dontrun{
+  isoset <- makeIso(11.2, 0.002, 0.25, 1.7, 0)}
 
   ### get data from local directory /data
   \dontrun{isoset <- makeIso(c(11.2, 12.4), 0.002, 0.25, 1.7, 0, baseURL="/data/")}

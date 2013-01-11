@@ -22,7 +22,7 @@ makeIso <- function(age, z=NULL, y=NULL, ml=NULL, afe=NULL, log=FALSE, linear=TR
                                         # get all the set of masses
                                         # for given composition
         tr <- getTrkSet(v.mass, z, y, ml, afe, baseURL)
-        if(all(is.na(tr))) {
+        if(any(is.na(tr))) {
           warning("CDS is unavailable; please try later")
           return(NULL)
         }          
