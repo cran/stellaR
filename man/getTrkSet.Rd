@@ -75,6 +75,7 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
   stars}. Astronomy and Astrophysics, 540, A26.
 }
 \examples{
+  \dontrun{
   ### get two masses
   trkset <- getTrkSet(c(0.9, 1.0), 0.002, 0.25, 1.7, 0)
 
@@ -82,7 +83,7 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
   trkset <- getTrkSet(c(0.9, 1.0), c(0.002, 0.01), 0.25, 1.7, 0)
 
   ### get data from local directory /data
-  \dontrun{set <- getTrkSet(0.9, 0.002, c(0.25, 0.33), 1.7, 0, baseURL="/data/")}
+  set <- getTrkSet(0.9, 0.002, c(0.25, 0.33), 1.7, 0, baseURL="/data/")}
 
 }
 \keyword{manip}

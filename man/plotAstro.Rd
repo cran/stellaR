@@ -56,10 +56,11 @@ plotAstro(x, y, type="l", xlab="", ylab="", xi=(max(x)-min(x))/5,
 }
 \examples{
 
+  \dontrun{
   trk <- getTrk(0.9, 0.002, 0.25, 1.7, 0)
 
   ### check return value from CDS
-  if(!is.na(trk)[1]) plot(trk)
+  if(!is.na(trk)[1]) plot(trk) }
 
 }
 \keyword{hplot}

@@ -106,10 +106,11 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
 }
 \examples{
 
+  \dontrun{
   trk <- getTrk(0.9, 0.002, 0.25, 1.7, 0)
 
   ### get data from local directory /data
-  \dontrun{trk <- getTrk(0.9, 0.002, 0.25, 1.7, 0, baseURL="/data/")}
+  trk <- getTrk(0.9, 0.002, 0.25, 1.7, 0, baseURL="/data/")
 
   ###  multi-panel plot of the various quantities with time
   track <- getTrk(0.80, 0.001, 0.25, 1.90, 0)
@@ -119,6 +120,6 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
   require(lattice)
   xyplot( values ~ time | ind, data=trkdata, type="l",
       scales=list(y=list(relation="free")))
-  }
+  } }
 }
 \keyword{manip}

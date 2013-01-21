@@ -62,9 +62,9 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
 
   ### slow!
   \dontrun{
-  hbgrid <- getHbgrid(0.002, 0.25, 1.7, 0)}
+  hbgrid <- getHbgrid(0.002, 0.25, 1.7, 0)
 
   ### get data from local directory /data
-  \dontrun{hbgrid <- getHbgrid(0.002, 0.25, 1.7, 0, baseURL="/data/")}
+  hbgrid <- getHbgrid(0.002, 0.25, 1.7, 0, baseURL="/data/")}
 }
 \keyword{manip}

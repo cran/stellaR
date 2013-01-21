@@ -74,10 +74,10 @@ M. Dell'Omodarme, G. Valle, S. Degl'Innocenti, and P.G. Prada Moroni
   stars}. Astronomy and Astrophysics, 540, A26.
 }
 \examples{
-
+  \dontrun{
   zahb <- getZahb(0.002, 0.25, 1.7, 0)
 
   ### get data from local directory /data
-  \dontrun{zahb <- getZahb(0.002, 0.25, 1.7, 0, baseURL="/data/")}
+  zahb <- getZahb(0.002, 0.25, 1.7, 0, baseURL="/data/")}
 }
 \keyword{manip}

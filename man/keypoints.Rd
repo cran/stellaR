@@ -80,6 +80,7 @@ evolutionary phases with the following coding: 1  = TO, 2 = BTO.
 }
 \examples{
 
+  \dontrun{
   trk <- getTrk(0.9, 0.002, 0.25, 1.7, 0)
   ### check return value from CDS
   if(!is.na(trk)[1]) keypoints(trk)
@@ -87,5 +88,6 @@ evolutionary phases with the following coding: 1  = TO, 2 = BTO.
   is <- getIso(11, 0.002, 0.25, 1.7, 0)
   ### check return value from CDS
   if(!is.na(is)[1]) keypoints(is)
+}
 }
 \keyword{manip}

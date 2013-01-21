@@ -29,8 +29,9 @@ are fomatted and printed. The function returns its argument invisibly (via invis
 }
 \examples{
 
+  \dontrun{
   trk <- getTrk(0.9, 0.002, 0.25, 1.7, 0)
   trk
-
+  }
 }
 \keyword{manip}
