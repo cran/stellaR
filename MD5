@@ -1,10 +1,10 @@
-9648080ef63bbcd05e2fdbf6ff54ff70 *DESCRIPTION
-ffb9cbc202fbceb6ca97f8751a08ecf1 *NAMESPACE
+0bb31e2d3c695e501d26d99077f83c4b *DESCRIPTION
+9b929168d9285f138b4fb033193b7cca *NAMESPACE
 ce78e7a13788dd84d71ba966962ea2a5 *R/evolut.R
 bdf570518e325e7efc607668b6c3a65e *R/ip.R
 1041268329a543a54593ca8192a3b37d *R/plot.R
 6184e125958c82cff6e45480efbe98d7 *R/print.R
-2bf561e77faf9991975ac854ba2e5ae5 *R/stellar.R
+f86d581f777a4c0cba24c67ddd5aa9d1 *R/stellar.R
 e47a525be8685da5f9e12afb2123a355 *data/compositions.rda
 fb5743bce695f96a8a82108bd88ed39c *data/masshb.rda
 11b4b7ffbbadc08643244e6124bcd4fc *data/masshbgrid.rda

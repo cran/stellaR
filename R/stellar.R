@@ -2,12 +2,12 @@ testComposition <- function(Z, Y, ML, AFE) {
 # test for the existence of a given combination of
 # chemical composition (Z, Y, AFE) and mixing length
 
-    data(compositions)
+    #data("compositions", envir = environment())
 
-    afe <- compositions$afe
-    ml <- compositions$ml
-    z <- compositions$z
-    y <- compositions$y
+    afe <- stellaR::compositions$afe
+    ml <- stellaR::compositions$ml
+    z <- stellaR::compositions$z
+    y <- stellaR::compositions$y
     
     testAFE <- AFE %in% afe
     if(!testAFE) 
@@ -36,12 +36,12 @@ showComposition <- function() {
 # Show the possible combinations of
 # chemical composition (Z, Y, AFE) and mixing length
 
-    data(compositions)
+    # data(compositions, envir = environment())
 
-    afe <- compositions$afe
-    ml <- compositions$ml
-    z <- compositions$z
-    y <- compositions$y
+    afe <- stellaR::compositions$afe
+    ml <- stellaR::compositions$ml
+    z <- stellaR::compositions$z
+    y <- stellaR::compositions$y
 
     cat("Mixing-length values:\n")
     cat("\t", paste(ml,collapse=", "), "\n\n")
@@ -211,10 +211,10 @@ getHb <- function(m, z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats/
     dirURL <- paste(baseURL, specificURL, Z, "_He", Y, "_ML", ML, AFE, "_HB/", sep="")
   
   # search the mass of RGB progenitor...
-    data(masshb)
+    # data(masshb, envir = environment())
     T <- c(m, z, y, ml)
-    idx <- apply(masshb[,1:4], 1, function(x) all(as.numeric(x) == as.numeric(T)))
-    masshb.ext <- masshb[idx,]
+    idx <- apply(stellaR::masshb[,1:4], 1, function(x) all(as.numeric(x) == as.numeric(T)))
+    masshb.ext <- stellaR::masshb[idx,]
     sel <- masshb.ext[, 5] == substr(AFE, 2, nchar(AFE))
     massRGB <- format(masshb.ext[sel, 6], nsmall=4)
     
@@ -262,10 +262,10 @@ getHbgrid <- function(z, y, ml, afe, baseURL="ftp://cdsarc.u-strasbg.fr/pub/cats
     dirURL <- paste(baseURL, specificURL, Z, "_He", Y, "_ML", ML, AFE, "_HB/grid/", sep="")
   
   # search the mass of RGB progenitor...
-    data(masshbgrid)
+    #data(masshbgrid, envir = environment())
     T <- c(z, y, ml)
-    idx <- apply(masshbgrid[,2:4], 1, function(x) all(as.numeric(x) == as.numeric(T)))
-    masshb.ext <- masshbgrid[idx,]
+    idx <- apply(stellaR::masshbgrid[,2:4], 1, function(x) all(as.numeric(x) == as.numeric(T)))
+    masshb.ext <- stellaR::masshbgrid[idx,]
     sel <- masshb.ext[, 5] == substr(AFE, 2, nchar(AFE))
     massRGB <- format(masshb.ext[sel, 6], nsmall=4)
     M <- format(masshb.ext[1, 1], nsmall=2)

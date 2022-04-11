@@ -1,3 +1,6 @@
+importFrom("graphics", "axis", "box", "lines", "par", "points")
+importFrom("stats", "approx")
+importFrom("utils", "data", "read.table", "setTxtProgressBar", "txtProgressBar")
 
 export(makeIso, interpTrk, plotAstro, testComposition, showComposition, getTrk, getIso, getZahb, getHb, getHbgrid, getTrkSet, getIsoSet, keypoints)
 
@@ -16,3 +19,4 @@ S3method(keypoints, trk)
 S3method(keypoints, trkset)
 S3method(keypoints, iso)
 S3method(keypoints, isoset)
+
