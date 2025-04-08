@@ -1,4 +1,4 @@
-0bb31e2d3c695e501d26d99077f83c4b *DESCRIPTION
+731324d262bbf053c48eb036264c6877 *DESCRIPTION
 9b929168d9285f138b4fb033193b7cca *NAMESPACE
 ce78e7a13788dd84d71ba966962ea2a5 *R/evolut.R
 bdf570518e325e7efc607668b6c3a65e *R/ip.R
@@ -15,7 +15,7 @@ fb5743bce695f96a8a82108bd88ed39c *data/masshb.rda
 60bc106dcefefc9d31e8beaf08d761e0 *man/getTrkSet.Rd
 7de42ab95e4e9e674822a165df02d7d5 *man/getZahb.Rd
 b05229b615cab98e707c8f4f75e27d9f *man/interpTrk.Rd
-1675cbd748352ae17423e91c4058f693 *man/keypoints.Rd
+5a68961cbd83c19ff8ee113e10282d00 *man/keypoints.Rd
 05ee11306a901e8709d02edc07548d7c *man/makeIso.Rd
 9631495cd46334a965252d768f225c6b *man/masshb.Rd
 f42d35e94d9bbb80c2464f707b3662da *man/plot.trk.Rd

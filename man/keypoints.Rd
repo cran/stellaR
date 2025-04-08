@@ -32,22 +32,22 @@ stellar isochrones.
 \code{keypoints.trk} extracts from the object \code{x$data} the rows
 relative to the following evolutionary stages:
 \enumerate{
-\item{ZAMS: }{ Zero-Age Main-Sequence, defined as the point for which the
-  central H abundance drops below 99\% of its initial value. }
-\item{TO: }{ Turn-Off, defined as the point for which the effective
+\item ZAMS: Zero-Age Main-Sequence, defined as the point for which the
+  central H abundance drops below 99\% of its initial value. 
+\item TO:  Turn-Off, defined as the point for which the effective
   temperature reaches its maximum value. If multiple lines satisfy the
-  constraint, the values of all the rows are averaged. }
-\item{BTO: }{ Brighter Turn-Off, defined as the point for which the
+  constraint, the values of all the rows are averaged. 
+\item BTO: Brighter Turn-Off, defined as the point for which the
   effective temperature drops below the one of the TO minus 100 K. The
   points could not exist for low masses. See Chaboyer et
   al. (1996) for an analysis of the advantages of this evolutionary
-point with respect to TO.}
-\item{exHc: }{ Central H exhaustion, defined as the point for which the central
+point with respect to TO.
+\item exHc: Central H exhaustion, defined as the point for which the central
   H abundance is zero. For low masses the point could coincide with
   TO. This is the last point of the tracks with mass lower or equal to
-  0.50 Msun.}
-\item{Heflash: }{ Helium flash, the last point of the track for masses
-  higher than 0.50 Msun.}
+  0.50 Msun.
+\item Heflash: Helium flash, the last point of the track for masses
+  higher than 0.50 Msun.
 }
 
 \code{keypoints.trkset} performs the selection described above for all the
@@ -60,11 +60,11 @@ BTO, 4 = exHc, 5 = Heflash.
 \code{keypoints.iso} extracts from the object \code{x$data} the rows
 relative to the following evolutionary stages:
 \enumerate{
-\item{TO: }{ Turn-Off, defined as the point for which the effective
+\item TO: Turn-Off, defined as the point for which the effective
   temperature reaches its maximum value. If multiple lines satisfy the
-  constraint, the values of all the rows are averaged. }
-\item{BTO: }{ Brighter Turn-Off, defined as the point for which the
-  effective temperature drops below the one of the TO minus 100 K. }
+  constraint, the values of all the rows are averaged. 
+\item BTO: Brighter Turn-Off, defined as the point for which the
+  effective temperature drops below the one of the TO minus 100 K. 
 }
 
 \code{keypoints.isoset} performs the selection described above for all the
